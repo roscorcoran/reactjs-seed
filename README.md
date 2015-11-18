@@ -7,13 +7,13 @@ Written in ECMAScript 6
 
 Install dependencies via npm & bower:
 
-```npm install && bower install```
+`npm install && bower install`
 
 ## Run
 
 Run the application via gulp:
 
-```gulp```
+`gulp`
 
 ##Dev
 
