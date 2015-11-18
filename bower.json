@@ -1,0 +1,29 @@
+{
+  "name": "reactjs-seed",
+  "description": "react.js seed application",
+  "main": "gulpfile.js",
+  "authors": [
+    "Ros Corcoran"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "react",
+    "js",
+    "purecss",
+    "gulp",
+    "es6"
+  ],
+  "homepage": "https://github.com/roscorcoran/reactjs-seed",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "pure": "~0.6.0"
+  }
+}

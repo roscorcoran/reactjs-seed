@@ -1,0 +1,40 @@
+{
+  "name": "reactjs-seed",
+  "version": "1.0.0",
+  "description": "react.js seed application ",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roscorcoran/reactjs-seed.git"
+  },
+  "keywords": [
+    "react",
+    "js",
+    "purecss",
+    "gulp"
+  ],
+  "author": "Ros Corcoran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roscorcoran/reactjs-seed/issues"
+  },
+  "homepage": "https://github.com/roscorcoran/reactjs-seed#readme",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    "babelify": "^7.2.0",
+    "browser-sync": "^2.10.0",
+    "browserify": "^12.0.1",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-jade": "^1.1.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "jquery": "^2.1.4",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
