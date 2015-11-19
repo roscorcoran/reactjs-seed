@@ -15,11 +15,7 @@ module.exports = {
       ]
     },
     vendor: {
-      scripts: [
-        './bower_components/jquery/dist/jquery.js',
-        './bower_components/react/react-with-addons.js',
-        './bower_components/react/react-dom.js'
-      ],
+      scripts: [],
       styles: [
         './bower_components/pure/pure.css',
         './bower_components/pure/grids.css'
