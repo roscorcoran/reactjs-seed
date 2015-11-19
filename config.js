@@ -21,5 +21,8 @@ module.exports = {
         './bower_components/pure/grids.css'
       ]
     }
+  },
+  lint:{
+    configFile: './eslint.config.json'
   }
 };

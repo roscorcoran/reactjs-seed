@@ -7,10 +7,13 @@ var concat = require('gulp-concat');
 var babelify = require('babelify');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
-
+var lint = require('gulp-eslint');
 
 var configFile = './config.js';
+//This file module level var __filename
+var gulpFile = __filename;
 
+//Load the config module
 var config = require(configFile);
 
 
@@ -28,15 +31,26 @@ gulp.task('browser-sync', ['build', 'watch'], function () {
 });
 
 
-gulp.task('build', ['bundle:jade', 'bundle:jsx', 'bundle:styles', 'vendor:scripts', 'vendor:styles']);
+gulp.task('build', ['bundle:jade', 'bundle:jsx', 'bundle:styles', 'vendor:scripts', 'vendor:styles', 'lint']);
+
+//Lint project files jsx/js/css/less...
+gulp.task('lint', ['lint:jsx']);
 
 gulp.task('watch', function () {
   gulp.watch(config.bundle.main.jade, ['watch:bundle:jade']);
-  gulp.watch(config.bundle.main.jsx, ['watch:bundle:jsx']);
+  gulp.watch(config.bundle.main.jsx, ['watch:bundle:jsx', 'lint:jsx']);
   gulp.watch(config.bundle.main.styles, ['watch:bundle:styles']);
   gulp.watch(config.bundle.vendor.scripts, ['watch:vendor:scripts']);
   gulp.watch(config.bundle.vendor.styles, ['watch:vendor:styles']);
-  //gulp.watch(configFile, ['build']).on('change', reload);
+  gulp.watch(config.lint.configFile, ['lint:jsx']);
+
+  //If we change our config make a new build with that
+  gulp.watch(configFile, ['build']);
+
+  //If we change this file we exit to force the user to reload
+  //This is not perfect but continuously spawning child processes is messy
+  gulp.watch(gulpFile, function () {process.exit();});
+
 });
 
 //Reload the browser after completing related task
@@ -98,4 +112,10 @@ gulp.task('vendor:styles', function () {
       .pipe(concat('vendor.css'))
       .pipe(gulp.dest(config.bundle.dir));
 
+});
+
+gulp.task('lint:jsx', function () {
+  return gulp.src(config.bundle.main.jsx)
+      .pipe(lint({config: 'eslint.config.json'}))
+      .pipe(lint.format());
 });
