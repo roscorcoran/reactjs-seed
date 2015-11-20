@@ -11,14 +11,14 @@ module.exports = {
         './src/index.jsx'
       ],
       styles: [
-        './src/**/*.css'
+        './src/**/*.less'
       ]
     },
     vendor: {
       scripts: [],
       styles: [
         './bower_components/pure/pure.css',
-        './bower_components/pure/grids.css'
+        './bower_components/pure/grids-responsive.css'
       ]
     }
   },

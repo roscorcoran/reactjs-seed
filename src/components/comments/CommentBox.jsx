@@ -13,6 +13,9 @@ export default class CommentBox extends React.Component {
       data: [{
         "author": "Ros Corcoran",
         "text": "Hey there!"
+      },{
+        "author": "Commander Hadfield",
+        "text": "Hey there Ros!"
       }]
     };
 
@@ -62,8 +65,10 @@ export default class CommentBox extends React.Component {
   render() {
     return (
         <div className="commentBox">
-          <h1>Comments</h1>
+          <h2>Comments</h2>
+          <hr />
           <CommentList data={this.state.data}/>
+          <hr />
           <CommentForm onCommentSubmit={this.handleCommentSubmit}/>
         </div>
     );

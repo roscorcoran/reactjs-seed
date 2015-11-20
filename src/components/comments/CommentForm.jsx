@@ -25,10 +25,14 @@ export default class CommentForm extends React.Component {
 
   render() {
     return (
-        <form className="commentForm" onSubmit={this.handleSubmit}>
-          <input type="text" placeholder="Your name" ref="author"/>
-          <input type="text" placeholder="Say something..." ref="text"/>
-          <input type="submit" value="Post"/>
+        <form className="commentForm pure-form" onSubmit={this.handleSubmit}>
+            <fieldset className="pure-group">
+              <legend>Make a comment</legend>
+              <input type="text" className="pure-input-1-3" placeholder="Your name" ref="author" required/>
+              <textarea className="pure-input-1" placeholder="Say it here..." ref="text" required></textarea>
+            </fieldset>
+
+            <button type="submit" className="pure-button pure-button-primary" value="Post">Post</button>
         </form>
     );
   }

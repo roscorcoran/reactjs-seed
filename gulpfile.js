@@ -8,6 +8,7 @@ var babelify = require('babelify');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var lint = require('gulp-eslint');
+var less = require('gulp-less');
 
 var configFile = './config.js';
 //This file module level var __filename
@@ -91,6 +92,7 @@ gulp.task('bundle:jsx', function () {
 gulp.task('bundle:styles', function () {
 
   return gulp.src(config.bundle.main.styles)
+      .pipe(less())
       .pipe(concat('bundle.css'))
       .pipe(gulp.dest(config.bundle.dir));
 
