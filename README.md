@@ -1,5 +1,7 @@
 # reactjs-seed
-React JSX and Pure CSS using gulp, babel and jade
+Example project using React(JSX) and Pure CSS
+
+Built using gulp, babel, jade and less
 
 Written in ECMAScript 6
 
@@ -30,3 +32,4 @@ Follow the great style guides:
  - [Pure CSS] (https://github.com/yahoo/pure)
  - [Gulp] (https://github.com/gulpjs/gulp)
  - [Jade] (https://github.com/jadejs/jade)
+ - [Less] (http://lesscss.org/)
