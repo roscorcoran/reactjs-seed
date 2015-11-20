@@ -32,21 +32,24 @@ gulp.task('browser-sync', ['build', 'watch'], function () {
 });
 
 
-gulp.task('build', ['bundle:jade', 'bundle:jsx', 'bundle:styles', 'vendor:scripts', 'vendor:styles', 'lint']);
+gulp.task('build', ['bundle:jade', 'bundle:jsx', 'bundle:styles', 'vendor:scripts', 'vendor:styles', 'lint'], function () {
+  reload();
+});
 
 //Lint project files jsx/js/css/less...
 gulp.task('lint', ['lint:jsx']);
 
 gulp.task('watch', function () {
-  gulp.watch(config.bundle.main.jade, ['watch:bundle:jade']);
-  gulp.watch(config.bundle.main.jsx, ['watch:bundle:jsx', 'lint:jsx']);
-  gulp.watch(config.bundle.main.styles, ['watch:bundle:styles']);
-  gulp.watch(config.bundle.vendor.scripts, ['watch:vendor:scripts']);
-  gulp.watch(config.bundle.vendor.styles, ['watch:vendor:styles']);
-  gulp.watch(config.lint.configFile, ['lint:jsx']);
+  gulp.watch(config.bundle.main.jade.in, ['watch:bundle:jade']);
+  gulp.watch(config.bundle.main.jsx.in, ['watch:bundle:jsx', 'lint:jsx']);
+  gulp.watch(config.bundle.main.styles.in, ['watch:bundle:styles']);
+  gulp.watch(config.bundle.vendor.scripts.in, ['watch:vendor:scripts']);
+  gulp.watch(config.bundle.vendor.styles.in, ['watch:vendor:styles']);
+  gulp.watch(config.eslint.configFile, ['lint:jsx']);
 
-  //If we change our config make a new build with that
-  gulp.watch(configFile, ['build']);
+  //If we change our config exit to force a reload
+  //Required modules are cached by so a full reload is necessary
+  gulp.watch(configFile, function () {process.exit();});
 
   //If we change this file we exit to force the user to reload
   //This is not perfect but continuously spawning child processes is messy
@@ -64,7 +67,7 @@ gulp.task('watch:vendor:styles', ['vendor:styles'], function () {reload();});
 
 gulp.task('bundle:jade', function () {
 
-  gulp.src(config.bundle.main.jade)
+  gulp.src(config.bundle.main.jade.in)
       .pipe(jade({
         locals: config,
         pretty: true
@@ -82,7 +85,7 @@ gulp.task('bundle:jsx', function () {
   })
       .transform('babelify', {presets: ["es2015", "react"]})
       .bundle()
-      .pipe(source('bundle.js'))
+      .pipe(source(config.bundle.main.jsx.out))
     //.on("error", function (err) { console.error(err); })
       .pipe(gulp.dest(config.bundle.dir));
 
@@ -91,9 +94,9 @@ gulp.task('bundle:jsx', function () {
 
 gulp.task('bundle:styles', function () {
 
-  return gulp.src(config.bundle.main.styles)
+  return gulp.src(config.bundle.main.styles.in)
       .pipe(less())
-      .pipe(concat('bundle.css'))
+      .pipe(concat(config.bundle.main.styles.out))
       .pipe(gulp.dest(config.bundle.dir));
 
 });
@@ -101,8 +104,8 @@ gulp.task('bundle:styles', function () {
 
 gulp.task('vendor:scripts', function () {
 
-  return gulp.src(config.bundle.vendor.scripts)
-      .pipe(concat('vendor.js'))
+  return gulp.src(config.bundle.vendor.scripts.in)
+      .pipe(concat(config.bundle.vendor.scripts.out))
       .pipe(gulp.dest(config.bundle.dir));
 
 });
@@ -110,14 +113,14 @@ gulp.task('vendor:scripts', function () {
 
 gulp.task('vendor:styles', function () {
 
-  return gulp.src(config.bundle.vendor.styles)
-      .pipe(concat('vendor.css'))
+  return gulp.src(config.bundle.vendor.styles.in)
+      .pipe(concat(config.bundle.vendor.styles.out))
       .pipe(gulp.dest(config.bundle.dir));
 
 });
 
 gulp.task('lint:jsx', function () {
-  return gulp.src(config.bundle.main.jsx)
-      .pipe(lint({config: 'eslint.config.json'}))
+  return gulp.src(config.bundle.main.jsx.in)
+      .pipe(lint({config: config.eslint.configFile}))
       .pipe(lint.format());
 });

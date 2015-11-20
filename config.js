@@ -4,25 +4,40 @@ module.exports = {
   bundle: {
     dir: './dist/',
     main: {
-      jade: './src/*.jade',
+      jade: {
+        in: './src/*.jade',
+        out: 'index.html'
+      },
       indexJsx: './src/index.jsx',
-      jsx: [
-        './src/components/**/*.jsx',
-        './src/index.jsx'
-      ],
-      styles: [
-        './src/**/*.less'
-      ]
+      jsx: {
+        in: [
+          './src/components/**/*.jsx',
+          './src/index.jsx'
+        ],
+        out: 'bundle.js'
+      },
+      styles: {
+        in: [
+          './src/**/*.less'
+        ],
+        out: 'bundle.css'
+      }
     },
     vendor: {
-      scripts: [],
-      styles: [
-        './bower_components/pure/pure.css',
-        './bower_components/pure/grids-responsive.css'
-      ]
+      scripts: {
+        in: [],
+        out: 'vendor.js'
+      },
+      styles: {
+        in: [
+          './bower_components/pure/pure.css',
+          './bower_components/pure/grids-responsive.css'
+        ],
+        out: 'vendor.css'
+      }
     }
   },
-  lint:{
+  eslint: {
     configFile: './eslint.config.json'
   }
 };
