@@ -4,7 +4,9 @@
   "description": "react.js seed application ",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified yet..\" && exit 1",
+    "start": "npm install && bower install && gulp",
+    "build": "gulp build"
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,7 @@
     "babelify": "^7.2.0",
     "browser-sync": "^2.10.0",
     "browserify": "^12.0.1",
+    "flux": "^2.1.1",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-eslint": "^1.1.0",
@@ -35,6 +38,7 @@
     "gulp-less": "^3.0.5",
     "gulp-sourcemaps": "^1.6.0",
     "jquery": "^2.1.4",
+    "object-assign": "^4.0.1",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "vinyl-source-stream": "^1.1.0"
