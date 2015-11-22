@@ -41,7 +41,7 @@ gulp.task('lint', ['lint:jsx']);
 
 gulp.task('watch', function () {
   gulp.watch(config.bundle.main.jade.in, ['watch:bundle:jade']);
-  gulp.watch(config.bundle.main.jsx.in, ['watch:bundle:jsx', 'lint:jsx']);
+  gulp.watch(config.bundle.main.js.in, ['watch:bundle:jsx', 'lint:jsx']);
   gulp.watch(config.bundle.main.styles.in, ['watch:bundle:styles']);
   gulp.watch(config.bundle.vendor.scripts.in, ['watch:vendor:scripts']);
   gulp.watch(config.bundle.vendor.styles.in, ['watch:vendor:styles']);
@@ -81,11 +81,11 @@ gulp.task('bundle:jsx', function () {
 
   return browserify({
     entries: config.bundle.main.indexJsx,
-    extensions: ['.jsx', '.es6'], debug: true
+    extensions: ['.js','.jsx', '.es6'], debug: true
   })
       .transform('babelify', {presets: ["es2015", "react"]})
       .bundle()
-      .pipe(source(config.bundle.main.jsx.out))
+      .pipe(source(config.bundle.main.js.out))
     //.on("error", function (err) { console.error(err); })
       .pipe(gulp.dest(config.bundle.dir));
 
@@ -120,7 +120,7 @@ gulp.task('vendor:styles', function () {
 });
 
 gulp.task('lint:jsx', function () {
-  return gulp.src(config.bundle.main.jsx.in)
+  return gulp.src(config.bundle.main.js.in)
       .pipe(lint({config: config.eslint.configFile}))
       .pipe(lint.format());
 });

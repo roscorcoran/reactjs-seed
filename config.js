@@ -9,8 +9,9 @@ module.exports = {
         out: 'index.html'
       },
       indexJsx: './src/index.jsx',
-      jsx: {
+      js: {
         in: [
+          './src/**/*.js',
           './src/components/**/*.jsx',
           './src/index.jsx'
         ],
