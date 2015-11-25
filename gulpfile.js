@@ -1,14 +1,17 @@
-var gulp = require('gulp');
-var browserSync = require('browser-sync').create();
-var reload = browserSync.reload;
-var jade = require('gulp-jade');
-var sourcemaps = require('gulp-sourcemaps');
-var concat = require('gulp-concat');
-var babelify = require('babelify');
-var browserify = require('browserify');
-var source = require('vinyl-source-stream');
-var lint = require('gulp-eslint');
-var less = require('gulp-less');
+var gulp = require('gulp')
+    , gutil = require('gulp-util')
+    , browserSync = require('browser-sync').create()
+    , reload = browserSync.reload
+    , jade = require('gulp-jade')
+    , uglify = require('gulp-uglify')
+    , concat = require('gulp-concat')
+    , babelify = require('babelify')
+    , browserify = require('browserify')
+    , source = require('vinyl-source-stream')
+    , buffer = require('vinyl-buffer')
+    , lint = require('gulp-eslint')
+    , less = require('gulp-less')
+    , minifyCss = require('gulp-minify-css');
 
 var configFile = './config.js';
 //This file module level var __filename
@@ -70,7 +73,7 @@ gulp.task('bundle:jade', function () {
   gulp.src(config.bundle.main.jade.in)
       .pipe(jade({
         locals: config,
-        pretty: true
+        pretty: !config.env.production
       }))
       .pipe(gulp.dest(config.bundle.dir))
 
@@ -81,12 +84,15 @@ gulp.task('bundle:jsx', function () {
 
   return browserify({
     entries: config.bundle.main.indexJsx,
-    extensions: ['.js','.jsx', '.es6'], debug: true
+    extensions: ['.js', '.jsx', '.es6'], debug: !config.env.production,
+    //Speed up build at cost of a few extra bytes
+    insertGlobals: !config.env.production
   })
       .transform('babelify', {presets: ["es2015", "react"]})
       .bundle()
       .pipe(source(config.bundle.main.js.out))
-    //.on("error", function (err) { console.error(err); })
+      .pipe((config.env.production ? buffer() : gutil.noop()))
+      .pipe((config.env.production ? uglify() : gutil.noop()))
       .pipe(gulp.dest(config.bundle.dir));
 
 });
@@ -97,6 +103,7 @@ gulp.task('bundle:styles', function () {
   return gulp.src(config.bundle.main.styles.in)
       .pipe(less())
       .pipe(concat(config.bundle.main.styles.out))
+      .pipe((config.env.production ? minifyCss({compatibility: 'ie8'}) : gutil.noop()))
       .pipe(gulp.dest(config.bundle.dir));
 
 });
@@ -106,6 +113,7 @@ gulp.task('vendor:scripts', function () {
 
   return gulp.src(config.bundle.vendor.scripts.in)
       .pipe(concat(config.bundle.vendor.scripts.out))
+      .pipe((config.env.production ? uglify() : gutil.noop()))
       .pipe(gulp.dest(config.bundle.dir));
 
 });
@@ -115,6 +123,7 @@ gulp.task('vendor:styles', function () {
 
   return gulp.src(config.bundle.vendor.styles.in)
       .pipe(concat(config.bundle.vendor.styles.out))
+      .pipe((config.env.production ? minifyCss({compatibility: 'ie8'}) : gutil.noop()))
       .pipe(gulp.dest(config.bundle.dir));
 
 });
