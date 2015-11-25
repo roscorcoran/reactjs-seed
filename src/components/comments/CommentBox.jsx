@@ -4,62 +4,46 @@ import React from 'react';
 import $ from 'jquery';
 import CommentList from './CommentList';
 import CommentForm from './CommentForm';
+import CommentStore from './stores/CommentStore';
+import CommentActions from './actions/CommentActions';
+
+/**
+ * Retrieve the current Comments from the CommentStore
+ */
+function getCommentState() {
+  return CommentStore.getAll();
+}
 
 export default class CommentBox extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      data: [{
-        "author": "Ros Corcoran",
-        "text": "Hey there!"
-      },{
-        "author": "Commander Hadfield",
-        "text": "Hey there Ros!"
-      }]
+      data: getCommentState()
     };
 
     // Bind callback methods to make `this` the correct context.
-    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
-  }
+    this._handleCommentSubmit = this._handleCommentSubmit.bind(this);
 
-  loadCommentsFromServer() {
-    $.ajax({
-      url: this.props.url,
-      dataType: 'json',
-      cache: false,
-      success: function (data) {
-        this.setState({data: data});
-      }.bind(this),
-      error: function (xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  }
-
-  handleCommentSubmit(comment) {
-    var comments = this.state.data;
-    var newComments = comments.concat([comment]);
-    this.setState({data: newComments});
-    $.ajax({
-      url: this.props.url,
-      dataType: 'json',
-      type: 'POST',
-      data: comment,
-      success: function (data) {
-        this.setState({data: data});
-      }.bind(this),
-      error: function (xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
+    this._onChange = this._onChange.bind(this);
   }
 
   componentDidMount() {
-    if (this.props.poll) {
-      this.loadCommentsFromServer();
-      setInterval(this.loadCommentsFromServer, this.props.pollInterval);
-    }
+    CommentStore.addChangeListener(this._onChange);
+  }
+
+  componentWillUnmount() {
+    CommentStore.removeChangeListener(this._onChange);
+  }
+
+  _onChange() {
+    this.setState({
+      data: getCommentState()
+    });
+  }
+
+  _handleCommentSubmit(comment) {
+    CommentActions.create(comment.author, comment.text);
   }
 
   render() {
@@ -69,7 +53,7 @@ export default class CommentBox extends React.Component {
           <hr />
           <CommentList data={this.state.data}/>
           <hr />
-          <CommentForm onCommentSubmit={this.handleCommentSubmit}/>
+          <CommentForm onCommentSubmit={this._handleCommentSubmit}/>
         </div>
     );
   }
