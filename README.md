@@ -12,10 +12,23 @@ Install dependencies via npm & bower:
 `npm install && bower install`
 
 ## Run
+Run the application via npm:
+
+`npm start`
 
 Run the application via gulp:
 
 `gulp`
+
+## Production builds
+
+To run a production build
+
+`gulp build --env.production=true`
+
+Or a production testing server
+
+`gulp --env.production=true`
 
 ##Dev
 
