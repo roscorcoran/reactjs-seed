@@ -2,21 +2,23 @@
 
 //Get arguments given to gulp/node
 var argv = require('minimist')(process.argv.slice(2), {
-  default:{
+  default: {
     //--env.production=true
     env: {
       dev: true,
       production: false
+    },
+    bundle: {
+      devDir: './dev/',
+      prodDir: './prod/'
     }
   }
 });
 
-var dir = (argv.env.production?'./dist/prod/':'./dist/dev/');
-
 module.exports = {
   env: argv.env,
   bundle: {
-    dir: dir,
+    dir: (argv.env.production ? argv.prodDir : argv.devDir),
     main: {
       jade: {
         in: './src/*.jade',
