@@ -5,6 +5,7 @@
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified yet..\" && exit 1",
+    "postinstall": "bower install",
     "start": "npm install && bower install && gulp",
     "build-prod": "gulp build --env.production=true",
     "build": "gulp build"

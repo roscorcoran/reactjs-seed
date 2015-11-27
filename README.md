@@ -7,9 +7,9 @@ Written in ECMAScript 6
 
 ## Installation
 
-Install dependencies via npm & bower:
+Install dependencies via npm:
 
-`npm install && bower install`
+`npm install`
 
 ## Run
 Run the application via npm:
