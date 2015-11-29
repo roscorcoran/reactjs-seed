@@ -9,8 +9,8 @@ var argv = require('minimist')(process.argv.slice(2), {
       production: false
     },
     bundle: {
-      devDir: './dev/',
-      prodDir: './prod/'
+      devDir: './dist/dev/',
+      prodDir: './dist/prod/'
     }
   }
 });
@@ -18,7 +18,7 @@ var argv = require('minimist')(process.argv.slice(2), {
 module.exports = {
   env: argv.env,
   bundle: {
-    dir: (argv.env.production ? argv.prodDir : argv.devDir),
+    dir: (argv.env.production ? argv.bundle.prodDir : argv.bundle.devDir),
     main: {
       jade: {
         in: './src/*.jade',
