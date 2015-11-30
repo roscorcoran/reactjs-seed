@@ -52,11 +52,23 @@ gulp.task('watch', function () {
 
   //If we change our config exit to force a reload
   //Required modules are cached by so a full reload is necessary
-  gulp.watch(configFile, function () {process.exit();});
+  gulp.watch(configFile)
+      .on('change', function (file) {
+        if(file.type == 'changed'){
+          console.warn(file.path, file.type);
+          process.exit();
+        }
+      });
 
   //If we change this file we exit to force the user to reload
   //This is not perfect but continuously spawning child processes is messy
-  gulp.watch(gulpFile, function () {process.exit();});
+  gulp.watch(gulpFile)
+      .on('change', function (file) {
+        if(file.type == 'changed'){
+          console.warn(file.path, file.type);
+          process.exit();
+        }
+      });
 
 });
 
