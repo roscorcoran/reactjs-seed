@@ -23,10 +23,12 @@ import { createHistory, useBasename } from 'history'
 
 //Components
 import CommentBox from './components/comments/CommentBox';
+import Todo from './components/todo/Todo';
+
 
 //Constants
 const history = useBasename(createHistory)({
-  basename: '/home'
+  basename: '#/home'
 });
 
 //App root elements
@@ -36,6 +38,7 @@ class App extends React.Component {
         <div>
           <ul>
             <li><Link to="/comments" activeClassName="active">Comments</Link></li>
+            <li><Link to="/todo" activeClassName="active">Todo</Link></li>
           </ul>
           {this.props.children}
         </div>
@@ -48,6 +51,8 @@ render((
         <Router history={history}>
           <Route path="/" component={App}>
             <Route path="comments" component={CommentBox}>
+            </Route>
+            <Route path="todo" component={Todo}>
             </Route>
           </Route>
         </Router>
